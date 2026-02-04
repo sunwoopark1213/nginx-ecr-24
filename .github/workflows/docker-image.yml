@@ -39,12 +39,19 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # 빌드 시 ECR 주소를 포함한 태그를 생성합니다.
-          docker build ./nginx \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+          docker build ./nginx-private-ecr/nginx \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:nginx-$IMAGE_TAG \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:nginx-latest
+          
+          docker build ./nginx-private-ecr/fastapi \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:fastapi-$IMAGE_TAG \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:fastapi-latest
+          
           # 생성된 이미지를 ECR 창고로 푸시합니다.
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:nginx-$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:nginx-latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:fastapi-$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:fastapi-latest
 
       # --- [CD 영역: SSM을 통한 EC2 실 배포] ---
       # Private EC2 내부망에 있는 에이전트에게 ECR 이미지를 배포하도록 명령합니다.
