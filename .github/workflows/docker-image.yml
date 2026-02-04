@@ -39,7 +39,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # 빌드 시 ECR 주소를 포함한 태그를 생성합니다.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./nginx
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           # 생성된 이미지를 ECR 창고로 푸시합니다.
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
