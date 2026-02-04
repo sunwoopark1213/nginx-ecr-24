@@ -39,11 +39,11 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # 빌드 시 ECR 주소를 포함한 태그를 생성합니다.
-          docker build ./nginx-private-ecr/nginx \
+          docker build ./nginx \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:nginx-$IMAGE_TAG \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:nginx-latest
           
-          docker build ./nginx-private-ecr/fastapi \
+          docker build ./fastapi \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:fastapi-$IMAGE_TAG \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:fastapi-latest
           
