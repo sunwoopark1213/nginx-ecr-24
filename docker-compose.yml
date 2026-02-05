@@ -1,15 +1,30 @@
+# version: '3.8'
+# services:
+#   nginx:
+#     image: 036333380579.dkr.ecr.us-east-1.amazonaws.com/sun/nginx-ecr:latest
+#     ports: ['8080:80']
+#     volumes:
+#       - ../nginx-private/dafault_fastapi.conf:/etc/nginx/conf.d/default.conf:ro
+#     depends_on: [fastapi_app]
+
+#   fastapi_app:
+#     build:
+#       context: ./fastapi
+#       dockerfile: Dockerfile
+#     expose:
+#       - "8000"
+
 version: '3.8'
 services:
   nginx:
-    image: 036333380579.dkr.ecr.us-east-1.amazonaws.com/sun/nginx-ecr:latest
-    ports: ['8080:80']
-    volumes:
-      - ../nginx-private/dafault_fastapi.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on: [fastapi_app]
+    image: 036333380579.dkr.ecr.us-east-1.amazonaws.com/sun/nginx-ecr:nginx-latest
+    ports:
+      - "8080:80"  # EC2 테스트용 8080, 배포시 80:80
+    depends_on:
+      - fastapi_app
+    # volumes 제거: ECR 이미지에 default_fastapi.conf 이미 복사됨
 
   fastapi_app:
-    build:
-      context: ./fastapi
-      dockerfile: Dockerfile
+    image: 036333380579.dkr.ecr.us-east-1.amazonaws.com/sun/nginx-ecr:fastapi-latest
     expose:
       - "8000"
